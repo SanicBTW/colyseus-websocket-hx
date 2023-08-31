@@ -37,7 +37,7 @@ class WebSocketServer {
 	}
 	
 	public static function create(host:String, port:Int, maxConnections:Int, isSecure:Bool, isDebug:Bool) {
-		return new WebSocketServer(host, port, maxConnections, isSecure, isDebug);
+		return new WebSocketServer(host, port, maxConnections, isSecure ? true : null, isDebug);
 	}
 	
 	public function accept():WebSocket {
