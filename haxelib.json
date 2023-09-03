@@ -1,13 +1,13 @@
 {
   "name" : "colyseus-websocket",
   "description" : "WebSocket client aimed for all platforms",
-  "version" : "1.0.12",
-  "releasenote": "View repository/changelog for details.",
+  "version" : "1.0.13",
+  "releasenote": "Fix crash when creating an unencrypted WebSocket",
   "url" : "https://github.com/colyseus/colyseus-websocket-hx",
   "classPath" : "src",
   "license" : "Public",
   "tags" : ["websockets","ws","wss","js","cpp","swf","neko","php","python","java","c#","ssl","openssl"],
   "contributors": ["endel","soywiz"],
-  "github-contributors": ["endel","soywiz","romamik","psmtec-dklein","RealyUniqueName","mepsoid"],
+  "github-contributors": ["endel","9Morello","soywiz","romamik","psmtec-dklein","RealyUniqueName","mepsoid"],
   "dependencies": {}
 }
