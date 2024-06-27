@@ -101,7 +101,7 @@ class WebSocketGeneric extends WebSocket {
         try {
             socket.send(data);
         } catch (e:Dynamic) {
-            trace(e);
+            if (debug) trace(e);
             onerror(Std.string(e));
         }
     }
