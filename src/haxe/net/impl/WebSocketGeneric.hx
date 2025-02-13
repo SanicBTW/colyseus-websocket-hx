@@ -19,6 +19,7 @@ class WebSocketGeneric extends WebSocket {
     private var state:State = State.Handshake;
     public var debug:Bool = true;
     private var needHandleData:Bool = false;
+	public var shouldMaskFramesBeforeSending:Bool = true;
 
     function initialize(uri:String, protocols:Array<String> = null, origin:String = null, debug:Bool = true) {
         if (origin == null) origin = "http://127.0.0.1/";
@@ -81,6 +82,7 @@ class WebSocketGeneric extends WebSocket {
         websocket.state = State.ServerHandshake;
         websocket.httpHeader = alreadyRecieved;
         websocket.needHandleData = true;
+		websocket.shouldMaskFramesBeforeSending = false;
         return websocket;
     }
 
@@ -404,9 +406,9 @@ class WebSocketGeneric extends WebSocket {
         var out = new BytesRW();
 
         //Chrome: VM321:1 WebSocket connection to 'ws://localhost:8000/' failed: A server must not mask any frames that it sends to the client.
-        var isMasked = true; //false; // All clients messages must be masked: http://tools.ietf.org/html/rfc6455#section-5.1
+		// All clients messages must be masked: http://tools.ietf.org/html/rfc6455#section-5.1. Server messages should not be masked.
         var mask = generateMask();
-        var sizeMask = (isMasked ? 0x80 : 0x00);
+        var sizeMask = (shouldMaskFramesBeforeSending ? 0x80 : 0x00);
 
         out.writeByte(type.toInt() | (isFinal ? 0x80 : 0x00));
 
@@ -421,9 +423,9 @@ class WebSocketGeneric extends WebSocket {
             out.writeInt(data.length);
         }
 
-        if (isMasked) out.writeBytes(mask);
+        if (shouldMaskFramesBeforeSending) out.writeBytes(mask);
 
-        out.writeBytes(isMasked ? applyMask(data, mask) : data);
+        out.writeBytes(shouldMaskFramesBeforeSending ? applyMask(data, mask) : data);
         return out.readAllAvailableBytes();
     }
 }
